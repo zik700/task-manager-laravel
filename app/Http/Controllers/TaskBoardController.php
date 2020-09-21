@@ -23,11 +23,11 @@ class TaskBoardController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
 
-                    $btn = 'Edit';
+                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editBook">Edit</a>';
 
-                    $btn = $btn . ' Delete';
+                    $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteBook">Delete</a>';
 
-                    return $btn;
+                     return $btn;
                 })
                 ->rawColumns(['action'])
                 ->make(true);
@@ -48,7 +48,8 @@ class TaskBoardController extends Controller
             'id' => $request->id
         ],[
             'name' => $request->name,
-            'description' => $request->description
+            'description' => $request->description,
+            'user_id' => 1
         ]);
 
         // return response
@@ -77,9 +78,10 @@ class TaskBoardController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tasks $tasks)
+    public function destroy($task)
     {
-        $tasks->delete();
+        Tasks::find($task)->delete();
+        // $tasks->delete();
 
         // return response
         $response = [

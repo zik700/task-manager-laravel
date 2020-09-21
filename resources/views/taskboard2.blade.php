@@ -19,8 +19,8 @@
     </div>
     <div class="container-fluid">
         <div class="row">
-            <h4 class="one">Books</h4>
-            <button class="btn btn-info ml-auto" id="createNewBook">Create Book</button>
+            <h4 class="one">Tasks</h4>
+            <button class="btn btn-info ml-auto" id="createNewTask">Create Task</button>
         </div>
     </div>
     <br>
@@ -29,7 +29,7 @@
         <tr>
             <th>#</th>
             <th>Name</th>
-            <th>Author</th>
+            <th>Description</th>
             <th width="280px">Action</th>
         </tr>
         </thead>
@@ -38,7 +38,7 @@
     </table>
 </div>
 
-{{-- create/update book modal--}}
+{{-- create/update task modal--}}
 <div class="modal fade" id="ajaxModel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -46,7 +46,7 @@
                 <h4 class="modal-title" id="modelHeading"></h4>
             </div>
             <div class="modal-body">
-                <form id="bookForm" name="bookForm" class="form-horizontal">
+                <form id="taskForm" name="taskForm" class="form-horizontal">
                     <input type="hidden" name="id" id="id">
                     <div class="form-group">
                         <label for="name" class="col-sm-2 control-label">Name</label>
@@ -59,7 +59,7 @@
                         <label class="col-sm-2 control-label">Description</label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control" id="description" name="description"
-                                   placeholder="Enter author name"
+                                   placeholder="Enter description name"
                                    value="" maxlength="50" required="" autocomplete="off">
                         </div>
                     </div>
@@ -96,27 +96,27 @@
             ]
         });
 
-        // create new book
-        $('#createNewBook').click(function () {
+        // create new task
+        $('#createNewTask').click(function () {
             $('#saveBtn').html("Create");
             $('#id').val('');
-            $('#bookForm').trigger("reset");
-            $('#modelHeading').html("Create New Book");
+            $('#taskForm').trigger("reset");
+            $('#modelHeading').html("Create New Task");
             $('#ajaxModel').modal('show');
         });
 
-        // create or update book
+        // create or update task
         $('#saveBtn').click(function (e) {
             e.preventDefault();
             $(this).html('Saving..');
 
             $.ajax({
-                data: $('#bookForm').serialize(),
+                data: $('#taskForm').serialize(),
                 url: "{{ url('taskboard') }}",
                 type: "POST",
                 dataType: 'json',
                 success: function (data) {
-                    $('#bookForm').trigger("reset");
+                    $('#taskForm').trigger("reset");
                     $('#ajaxModel').modal('hide');
                     table.draw();
                     $('#saveBtn').html('Save');
@@ -128,11 +128,11 @@
             });
         });
 
-        // edit book
-        $('body').on('click', '.editBook', function () {
+        // edit task
+        $('body').on('click', '.editTask', function () {
             var id = $(this).data('id');
             $.get("{{ url('taskboard') }}" + '/' + id + '/edit', function (data) {
-                $('#modelHeading').html("Edit Book");
+                $('#modelHeading').html("Edit Task");
                 $('#saveBtn').html('Update');
                 $('#ajaxModel').modal('show');
                 $('#id').val(data.id);
@@ -141,8 +141,8 @@
             })
         });
 
-        // delete book
-        $('body').on('click', '.deleteBook', function () {
+        // delete task
+        $('body').on('click', '.deleteTask', function () {
             var id = $(this).data("id");
             confirm("Are You sure want to delete !");
 
