@@ -18,6 +18,7 @@ class CreateTasksTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->date('adddat')->nullable();
             $table->string('name');
+            $table->boolean('is_done')->default(false);
             $table->text('description')->nullable();
             $table->date('deadline')->nullable();
             $table->date('updated_at')->nullable();
