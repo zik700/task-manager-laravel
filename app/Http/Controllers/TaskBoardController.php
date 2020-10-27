@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Tasks;
 use Illuminate\Http\Request;
 use DataTables;
+use App\Providers\TaskService;
 
 
 class TaskBoardController extends Controller
@@ -52,6 +53,14 @@ class TaskBoardController extends Controller
             'user_id' => 1
         ]);
 
+        $request->user_id = 1;
+
+        if($request->id){
+            (new TaskService)->updateTask($request->user_id, $request->name, $request->description, $request->user_id, $request->is_done);
+        }else{
+            (new TaskService)->createNewTask($request->id, $request->name, $request->description, $request->user_id, $request->is_done);
+        }
+
         // return response
         $response = [
             'success' => true,
@@ -80,13 +89,19 @@ class TaskBoardController extends Controller
      */
     public function destroy($task)
     {
-        Tasks::find($task)->delete();
-
-        // return response
-        $response = [
-            'success' => true,
-            'message' => 'Task deleted successfully.',
-        ];
-        return response()->json($response, 200);
+        if ((new TaskService)->delete($task)){
+            // return response
+            $response = [
+                'success' => true,
+                'message' => 'Task deleted successfully.',
+            ];
+            return response()->json($response, 200);
+        }else{
+            $response = [
+                'success' => false,
+                'message' => 'Something went wrong :(.',
+            ];
+            return response()->json($response, 400);
+        }
     }
 }

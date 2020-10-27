@@ -27,6 +27,34 @@ class TaskService extends ServiceProvider
         //
     }
 
+    public function createNewTask(int $user_id, string $name, string $description){
+
+        return Tasks::updateOrCreate([
+            'name' => $name,
+            'description' => $description,
+            'is_done' => $is_done,
+            'user_id' => $user_id
+        ]);
+
+    }
+
+    public function updateTask(int $task_id, string $name, string $description, int $user_id, boolean $is_done){
+
+        return Tasks::updateOrCreate([
+            'id' => $task_id
+        ],[
+            'name' => $name,
+            'description' => $description,
+            'is_done' => $is_done,
+            'user_id' => $user_id
+        ]);
+        
+    }
+
+    public function deleteTask(int $task_id){
+        return Tasks::find($task_id)->delete();
+    }
+
     /**
      * Count how many tasks are active today for $user_id
      * $user_id - User $user_id
