@@ -81,7 +81,6 @@ class TaskBoardController extends Controller
     public function destroy($task)
     {
         Tasks::find($task)->delete();
-        // $tasks->delete();
 
         // return response
         $response = [
