@@ -27,7 +27,7 @@ class TaskService extends ServiceProvider
         //
     }
 
-    public function updateOrCreateTask(int $task_id = null, string $name, string $description, $user_id, $from = null, boolean $is_done = null){
+    public function updateOrCreateTask(int $task_id = null, string $deadline,  string $name, string $description, $user_id, $from = null, boolean $is_done = null){
 
         $result = Tasks::updateOrCreate([
             'id' => $task_id
@@ -35,6 +35,7 @@ class TaskService extends ServiceProvider
             'name' => $name,
             'description' => $description,
             'is_done' => $is_done,
+            'deadline' => $deadline,
             'user_id' => $user_id,
             'from' => $from
         ]);
@@ -89,14 +90,48 @@ class TaskService extends ServiceProvider
     }
 
 
-    /**
-     * Count daily unrealized tasks
-     * int  $user_id - User $user_id
-     */
-    public function countDailyTasks(int $user_id){
-        
-        $today = date("Y-m-d");
-        return Tasks::whereDate('created_at', $today)->where('is_done', false)->get()->count() ? Tasks::whereDate('created_at', $today)->where('is_done', false)->get()->count() : 0;
+    public function getDailyDone(){
 
+        $today = date("Y-m-d");
+        $result = Tasks::whereDate('created_at', $today)
+            ->where('is_done', true)
+            ->get()
+            ->count();
+
+        return $result ? $result : 0;
     }
+    public function getDailyCreated(){
+
+        $today = date("Y-m-d");
+        $result = Tasks::whereDate('created_at', $today)
+            ->get()
+            ->count();
+
+        return $result ? $result : 0;
+    }
+    public function getMonthlyDone(){
+
+        $thisMonth = date("m");
+        $result = Tasks::whereMonth(
+            'created_at', $thisMonth)
+            ->where('is_done', true)
+            ->get()
+            ->count();
+
+        return $result ? $result : 0;
+        
+    }
+    public function getMonthlyCreated(){
+
+        $thisMonth = date("m");
+        $result = Tasks::whereMonth(
+            'created_at', $thisMonth)
+            ->get()
+            ->count();
+            
+        return $result ? $result : 0;
+
+        
+    }
+
 }

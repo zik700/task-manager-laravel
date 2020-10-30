@@ -28,4 +28,4 @@ Route::get('/taskboard/dailydone','TaskBoardController@dailydone');
 Route::get('/taskboard/dailycreated','TaskBoardController@dailycreated');
 Route::get('/taskboard/monthlydone','TaskBoardController@monthlydone');
 Route::get('/taskboard/monthlycreated','TaskBoardController@monthlycreated');
-Route::resource('/taskboard', 'TaskBoardController');
+Route::resource('/taskboard', 'TaskBoardController', ['only'=> ['index','edit','store','destroy']]);

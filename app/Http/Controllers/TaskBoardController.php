@@ -49,6 +49,7 @@ class TaskBoardController extends Controller
         $taskService = new TaskService($request->id);
         $result = $taskService->updateOrCreateTask(
             $request->id,
+            $request->deadline,
             $request->name,
             $request->description, 
             $request->user_id
@@ -92,7 +93,7 @@ class TaskBoardController extends Controller
         $taskService = new TaskService($id);
         $result = $taskService->deleteTask($id);
 
-        if($result == true){
+        if($result == true){    
             $response = [
                 'success' => true,
                 'message' => 'Task deleted successfully.',
@@ -134,30 +135,35 @@ class TaskBoardController extends Controller
     }
 
     public function dailydone(){
-
-        $tasksDaily = Tasks::whereDate('created_at', date("Y-m-d"))->where('is_done', true)->get()->count();
-
-        return $tasksDaily;
-
+        $id = 1;
+        $taskService = new TaskService($id);
+        $result = $taskService->getDailyDone();
+        return $result;
     }
 
     public function dailycreated(){
 
-        $tasksDailyCreated = Tasks::whereDate('created_at', date("Y-m-d"))->get()->count();
-        return $tasksDailyCreated;
+        $id = 1;
+        $taskService = new TaskService($id);
+        $result = $taskService->getDailyCreated();
+        return $result;
     }
 
     public function monthlydone(){
 
-        $monthlyDone = Tasks::whereMonth('created_at', date("m"))->where('is_done', true)->get()->count();
-        return $monthlyDone;
-
+        $id = 1;
+        $taskService = new TaskService($id);
+        $result = $taskService->getMonthlyDone();
+        return $result;
+ 
     }
 
     public function monthlycreated(){
 
-        $monthlyCreated = Tasks::whereMonth('created_at', date("m"))->get()->count();
-        return $monthlyCreated;
+        $id = 1;
+        $taskService = new TaskService($id);
+        $result = $taskService->getMonthlyCreated();
+        return $result;
     }
 
 }

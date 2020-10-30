@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css"/>
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
-    <link href="@/css/style.css'" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"> 
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300&display=swap" rel="stylesheet"> 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
@@ -86,6 +85,7 @@
                 <th>#</th>
                 <th>Name</th>
                 <th>Description</th>
+                <th>Deadline</th>
                 <th width="280px">Action</th>
             </tr>
             </thead>
@@ -116,6 +116,14 @@
                             <div class="col-sm-12">
                                 <input type="text" class="form-control" id="description" name="description"
                                     placeholder="Enter author name"
+                                    value="" maxlength="50" required="" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Deadline</label>
+                            <div class="col-sm-12">
+                                <input type="date" class="form-control" id="deadline" name="deadline"
+                                    placeholder="Enter deadline"
                                     value="" maxlength="50" required="" autocomplete="off">
                             </div>
                         </div>
@@ -193,6 +201,7 @@
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 {data: 'name', name: 'name'},
                 {data: 'description', name: 'description'},
+                {data: 'deadline', name: 'deadline'},
                 {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
         });
@@ -211,6 +220,7 @@
         $('#saveBtn').click(function (e) {
             e.preventDefault();
             $(this).html('Saving..');
+            console.log($('#bookForm').serialize());
 
             $.ajax({
                 data: $('#bookForm').serialize(),
@@ -222,15 +232,17 @@
                     $('#ajaxModel').modal('hide');
                     table.draw();
                     $('#saveBtn').html('Save');
+                    console.log(data);
                 },
                 error: function (data) {
                     console.log('Error:', data);
                     $('#saveBtn').html('Save');
+                    console.log(data)
                 }
             });
 
             $.ajax({
-                url: "{{ url('taskboard') }}" + '/daily',
+                url: "{{ url('taskboard') }}" + '/dailydone',
                 type: "GET",
                 data: "<div> Replace div with this contentf</div>",
                 success: function(data){
@@ -260,6 +272,7 @@
                 $('#id').val(data.id);
                 $('#name').val(data.name);
                 $('#description').val(data.description);
+                $('#deadline').val(data.deadline);
             })
         });
 
