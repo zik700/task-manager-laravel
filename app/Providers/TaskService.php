@@ -27,31 +27,41 @@ class TaskService extends ServiceProvider
         //
     }
 
-    public function createNewTask(int $user_id, string $name, string $description){
+    public function updateOrCreateTask(int $task_id = null, string $name, string $description, $user_id, $from = null, boolean $is_done = null){
 
-        return Tasks::updateOrCreate([
-            'name' => $name,
-            'description' => $description,
-            'is_done' => $is_done,
-            'user_id' => $user_id
-        ]);
-
-    }
-
-    public function updateTask(int $task_id, string $name, string $description, int $user_id, boolean $is_done){
-
-        return Tasks::updateOrCreate([
+        $result = Tasks::updateOrCreate([
             'id' => $task_id
         ],[
             'name' => $name,
             'description' => $description,
             'is_done' => $is_done,
-            'user_id' => $user_id
+            'user_id' => $user_id,
+            'from' => $from
         ]);
+
+        if (!$result){
+            return false;
+        }
+
+        return true;
         
     }
 
-    public function deleteTask(int $task_id){
+    public function taskRealize($id, $is_done){
+
+        $task = Tasks::find($id);
+
+        if (empty($task)){
+            return false;
+        }
+
+        $task->is_done = $is_done;
+        $task->save();
+        return true;
+
+    }
+
+    public function deleteTask($task_id){
         return Tasks::find($task_id)->delete();
     }
 

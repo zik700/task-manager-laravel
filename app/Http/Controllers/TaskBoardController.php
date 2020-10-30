@@ -8,6 +8,7 @@ use DataTables;
 use App\Providers\TaskService;
 
 
+
 class TaskBoardController extends Controller
 {
     /**
@@ -17,18 +18,17 @@ class TaskBoardController extends Controller
      */
     public function index(Request $request)
     {
-        $tasks = Tasks::latest()->get();
+        $tasks = Tasks::latest()->where('is_done', false)->get();
 
         if ($request->ajax()) {
             return DataTables::of($tasks)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-
-                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editBook">Edit</a>';
-
-                    $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteBook">Delete</a>';
-
-                     return $btn;
+                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-outline-primary btn-sm editBook">Edit</a>';
+                    $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-outline-danger btn-sm deleteBook">Delete</a>';
+                    $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Done" class="btn btn-outline-success btn-sm doneBtn">Done!</a>';
+                    
+                    return $btn;
                 })
                 ->rawColumns(['action'])
                 ->make(true);
@@ -45,28 +45,28 @@ class TaskBoardController extends Controller
      */
     public function store(Request $request)
     {
-        Tasks::updateOrCreate([
-            'id' => $request->id
-        ],[
-            'name' => $request->name,
-            'description' => $request->description,
-            'user_id' => 1
-        ]);
 
-        $request->user_id = 1;
+        $taskService = new TaskService($request->id);
+        $result = $taskService->updateOrCreateTask(
+            $request->id,
+            $request->name,
+            $request->description, 
+            $request->user_id
+        );
 
-        if($request->id){
-            (new TaskService)->updateTask($request->user_id, $request->name, $request->description, $request->user_id, $request->is_done);
+        if($result == true){
+            $response = [
+                'success' => true,
+                'message' => 'Task added/edited successfully.',
+            ];
+            return response()->json($response, 200);
         }else{
-            (new TaskService)->createNewTask($request->id, $request->name, $request->description, $request->user_id, $request->is_done);
+            $response = [
+                'success' => false,
+                'message' => 'Something bad has happened :(.',
+            ];
+            return response()->json($response, 500);
         }
-
-        // return response
-        $response = [
-            'success' => true,
-            'message' => 'Tasks saved successfully.',
-        ];
-        return response()->json($response, 200);
     }
 
     /**
@@ -87,10 +87,12 @@ class TaskBoardController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($task)
+    public function destroy($id)
     {
-        if ((new TaskService)->delete($task)){
-            // return response
+        $taskService = new TaskService($id);
+        $result = $taskService->deleteTask($id);
+
+        if($result == true){
             $response = [
                 'success' => true,
                 'message' => 'Task deleted successfully.',
@@ -99,9 +101,42 @@ class TaskBoardController extends Controller
         }else{
             $response = [
                 'success' => false,
-                'message' => 'Something went wrong :(.',
+                'message' => 'Something bad has happened :(.',
             ];
-            return response()->json($response, 400);
+            return response()->json($response, 500);
         }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function done ($id){
+
+        $taskService = new TaskService($id);
+        $result = $taskService->taskRealize($id, true);
+        if($result == true){
+            $response = [
+                'success' => true,
+                'message' => 'Task deleted successfully.',
+            ];
+            return response()->json($response, 200);
+        }else{
+            $response = [
+                'success' => false,
+                'message' => 'Something bad has happened :(.',
+            ];
+            return response()->json($response, 500);
+        }
+
+    }
+
+    public function daily(Request $request){
+
+        $tasks = Tasks::whereDate('created_at', date("Y-m-d"))->where('is_done', true)->get();
+
+
     }
 }

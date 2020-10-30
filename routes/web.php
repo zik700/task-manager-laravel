@@ -21,8 +21,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 // Route::get('/register','RegistrationController@create');
-// Route::post('/register','RegistrationController@store');
-Route::resource('/taskboard', 'TaskBoardController')->name('*', 'taskboard');
+Route::post('/done/{id}','TaskBoardController@done');
+Route::resource('/taskboard', 'TaskBoardController');
 // Route::get('/login','SessionsController@create');
 // Route::get('/home', 'HomeController@index')->name('home');
 // Route::resource('/profile/{user}', 'ProfilesController@index')->name('profile');
