@@ -36,14 +36,14 @@
                             <div class="done-tasks">
                                 Done:
                             </div>
-                            <div class="dz" style="margin-left: 10px; margin-right: 16px; /*! border-radius: 1px; *//*! border: 1px solid black; *//*! padding: 2px; */padding: 0 6px 0 6px;border-radius: 19px;background: #a1bda1;color: #0a370a; " id="dailyCounter">
+                            <div class="dz" style="margin-left: 10px; margin-right: 16px; /*! border-radius: 1px; */border: 1px solid black;/*! padding: 2px; */padding: 0 6px 0 6px;border-radius: 19px;/*! background: #a1bda1; */color: #0a370a; border-color: #28a745;" id="dailyCounter">
                             </div>
                         </div>
                         <div class="div" style="display: flex;flex-direction: row;justify-content: space-between; padding-top: 6px;">
                             <div class="created-tasks">
                                 Created:
                             </div>
-                            <div class="dz" style="margin-left: 10px; margin-right: 16px; /*! border-radius: 1px; *//*! border: 1px solid black; *//*! padding: 2px; */padding: 0 6px 0 6px;border-radius: 19px;background: #c2c498;color: #443d29;  " id="createdCounter">
+                            <div class="dz" style="margin-left: 10px; margin-right: 16px; /*! border-radius: 1px; */border: 1px solid black;/*! padding: 2px; */padding: 0 6px 0 6px;border-radius: 19px;/*! background: #a1bda1; */color: #0a370a; border-color: #007bff;" id="createdCounter">
 
                             </div>
                         </div>
