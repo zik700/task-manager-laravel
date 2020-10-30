@@ -76,7 +76,7 @@
                 </div>
             </div>
             <div class="bottom-div" style="display: flex;justify-content: center;width: 100%; margin-bottom: 32px;">
-                <button class="btn btn-outline-primary" style="width:50%" id="createNewBook">New Task</button>
+                <button class="btn btn-outline-primary" style="width:50%" id="createNewTask">New Task</button>
             </div>
         <br>
         <table id="dataTable" class="table">
@@ -102,7 +102,7 @@
                     <h4 class="modal-title" id="modelHeading"></h4>
                 </div>
                 <div class="modal-body">
-                    <form id="bookForm" name="bookForm" class="form-horizontal">
+                    <form id="taskForm" name="taskForm" class="form-horizontal">
                         <input type="hidden" name="id" id="id">
                         <div class="form-group">
                             <label for="name" class="col-sm-2 control-label">Name</label>
@@ -208,11 +208,11 @@
         
 
         // create new task
-        $('#createNewBook').click(function () {
+        $('#createNewTask').click(function () {
             $('#saveBtn').html("Create");
             $('#id').val('');
-            $('#bookForm').trigger("reset");
-            $('#modelHeading').html("Create New Book");
+            $('#taskForm').trigger("reset");
+            $('#modelHeading').html("Create");
             $('#ajaxModel').modal('show');
         });
 
@@ -220,19 +220,17 @@
         $('#saveBtn').click(function (e) {
             e.preventDefault();
             $(this).html('Saving..');
-            console.log($('#bookForm').serialize());
 
             $.ajax({
-                data: $('#bookForm').serialize(),
+                data: $('#taskForm').serialize(),
                 url: "{{ url('taskboard') }}",
                 type: "POST",
                 dataType: 'json',
                 success: function (data) {
-                    $('#bookForm').trigger("reset");
+                    $('#taskForm').trigger("reset");
                     $('#ajaxModel').modal('hide');
                     table.draw();
                     $('#saveBtn').html('Save');
-                    console.log(data);
                 },
                 error: function (data) {
                     console.log('Error:', data);
@@ -263,10 +261,10 @@
         });
 
         // EDIT TASK
-        $('body').on('click', '.editBook', function () {
+        $('body').on('click', '.editTask', function () {
             var id = $(this).data('id');
             $.get("{{ url('taskboard') }}" + '/' + id + '/edit', function (data) {
-                $('#modelHeading').html("Edit Book");
+                $('#modelHeading').html("Edit Task");
                 $('#saveBtn').html('Update');
                 $('#ajaxModel').modal('show');
                 $('#id').val(data.id);
@@ -307,7 +305,7 @@
         });
 
         // DELETE TASK
-        $('body').on('click', '.deleteBook', function () {
+        $('body').on('click', '.deleteTask', function () {
             var id = $(this).data("id");
             if (confirm("Are you sure delete this task?")){
                 $.ajax({
