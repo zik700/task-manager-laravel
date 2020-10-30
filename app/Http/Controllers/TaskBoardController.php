@@ -140,4 +140,10 @@ class TaskBoardController extends Controller
         return $tasksDaily;
 
     }
+
+    public function dailycreated(){
+
+        $tasksDailyCreated = Tasks::whereDate('created_at', date("Y-m-d"))->get()->count();
+        return $tasksDailyCreated;
+    }
 }

@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css"/>
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="@/css/style.css'" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300&display=swap" rel="stylesheet"> 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
@@ -13,19 +16,62 @@
 </head>
 <body>
     <div class="container">
-        <div class="text-center" style="margin: 20px 0px 20px 0px;">
-            <a href="https://static.thenounproject.com/png/1596429-200.png"><img style="height: 75px;" src="https://static.thenounproject.com/png/1596429-200.png"></a><br>
-            <span class="text-secondary">Task Manager</span>
+        <div class="text-center" style="margin: 20px 0px 20px 0px; display: flex; justify-content: center;">
+            <a href="https://static.thenounproject.com/png/1596429-200.png"><img style="height: 57px;" src="https://static.thenounproject.com/png/1596429-200.png"></a>
+            <span class="text-secondary" style="font-size:38px;justify-content:center; align-items: center;display: flex; margin-left: 16px; font-family: 'Pacifico', cursive; color: black !important" >Task Manager</span>
         </div>
-        <div class="container-fluid">
+        <div class="container-fluid" style="margin-top: 78px; display: flex; justify-content:center; margin-bottom: 32px;">
             <div class="row">
-                <h4 class="one">Tasks list</h4>
-                <button class="btn btn-outline-primary ml-auto" id="createNewBook">New Task</button>
+                <h4 class="one" style="font-size: 48px; font-family: 'Noto Sans SC', sans-serif;">Dashboard</h4> 
             </div>
         </div>
-        <div class="container-fluid">
-            <h4 class="one">Daily done: </h4><h3 class="one" id="dailyCounter"></h3>
-        </div>
+        <div class="container-fluid" id="daily-container" style="display:flex; font-size: 20px; margin-bottom: 32px;">
+        <div class="di" style="display:flex; width: 100%">
+                <div class="box" style="width:100%; display: flex;flex-direction: column; border-right: 1px solid black">
+                    <div class="label" style="text-align: center; font-weight: bold;">
+                        Daily
+                    </div> 
+                    <div class="tasks" style="font-style: italic">
+                        <div class="div" style="display: flex;flex-direction: row;justify-content: space-between;">
+                            <div class="done-tasks">
+                                Done:
+                            </div>
+                            <div class="dz" style="margin-left: 10px; margin-right: 16px; /*! border-radius: 1px; *//*! border: 1px solid black; *//*! padding: 2px; */padding: 0 6px 0 6px;border-radius: 19px;background: #a1bda1;color: #0a370a; " id="dailyCounter">
+                            </div>
+                        </div>
+                        <div class="div" style="display: flex;flex-direction: row;justify-content: space-between; padding-top: 6px;">
+                            <div class="created-tasks">
+                                Created:
+                            </div>
+                            <div class="dz" style="margin-left: 10px; margin-right: 16px; /*! border-radius: 1px; *//*! border: 1px solid black; *//*! padding: 2px; */padding: 0 6px 0 6px;border-radius: 19px;background: #c2c498;color: #443d29;  " id="createdCounter">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+                <div class="container-fluid" id="weekly-container">
+                    <div class="box" style="width:100%; display: flex;flex-direction: column;">
+                    <div class="label" style="text-align: center; font-weight: bold;">
+                            Weekly
+                        </div> 
+                        <div class="tasks   ">
+                            <div class="done-tasks">
+                                Done
+                            </div>
+
+                            <div class="created-tasks">
+                                Created
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-div" style="display: flex;justify-content: center;width: 100%; margin-bottom: 32px;">
+                <button class="btn btn-outline-primary" style="width:50%" id="createNewBook">New Task</button>
+            </div>
         <br>
         <table id="dataTable" class="table">
             <thead>
@@ -77,7 +123,8 @@
 
 </body>
 
-<script type="text/javascript">
+<script type="text/javascript" >
+
     $(function () {
         //ajax setup
         $.ajaxSetup({
@@ -93,6 +140,17 @@
                 data: "<div> Replace div with this contentf</div>",
                 success: function(data){
                     $('#dailyCounter').html(data);
+                }
+            })
+        });
+
+        $(document).ready(function(){
+            $.ajax({
+                url: "{{ url('taskboard') }}" + '/dailycreated',
+                type: "GET",
+                data: "<div> Replace div with this contentf</div>",
+                success: function(data){
+                    $('#createdCounter').html(data);
                 }
             })
         });
@@ -148,11 +206,22 @@
                 data: "<div> Replace div with this contentf</div>",
                 success: function(data){
                     $('#dailyCounter').html(data);
-            }
-        })
+                }
+            })
+
+            $.ajax({
+                url: "{{ url('taskboard') }}" + '/dailycreated',
+                type: "GET",
+                data: "<div> Replace div with this contentf</div>",
+                success: function(data){
+                    $('#createdCounter').html(data);
+                }
+            })
+            
+
         });
 
-        // edit task
+        // EDIT TASK
         $('body').on('click', '.editBook', function () {
             var id = $(this).data('id');
             $.get("{{ url('taskboard') }}" + '/' + id + '/edit', function (data) {
@@ -165,6 +234,7 @@
             })
         });
 
+        // DONE TASK
         $('body').on('click', '.doneBtn', function () {
             var id = $(this).data("id");
            
@@ -182,6 +252,7 @@
                 });
             }
             
+            // RELOAD 
             $.ajax({
                 url: "{{ url('taskboard') }}" + '/daily',
                 type: "GET",
@@ -193,7 +264,7 @@
            
         });
 
-        // delete task
+        // DELETE TASK
         $('body').on('click', '.deleteBook', function () {
             var id = $(this).data("id");
             if (confirm("Are you sure delete this task?")){

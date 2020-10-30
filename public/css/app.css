@@ -10730,7 +10730,8 @@ a.text-primary:focus {
 }
 
 .text-secondary {
-  color: #6c757d !important;
+  color: black !important;
+  font-size: 38px !important;
 }
 
 a.text-secondary:hover,
