@@ -133,7 +133,7 @@ class TaskBoardController extends Controller
 
     }
 
-    public function daily(){
+    public function dailydone(){
 
         $tasksDaily = Tasks::whereDate('created_at', date("Y-m-d"))->where('is_done', true)->get()->count();
 
@@ -146,4 +146,18 @@ class TaskBoardController extends Controller
         $tasksDailyCreated = Tasks::whereDate('created_at', date("Y-m-d"))->get()->count();
         return $tasksDailyCreated;
     }
+
+    public function monthlydone(){
+
+        $monthlyDone = Tasks::whereMonth('created_at', date("m"))->where('is_done', true)->get()->count();
+        return $monthlyDone;
+
+    }
+
+    public function monthlycreated(){
+
+        $monthlyCreated = Tasks::whereMonth('created_at', date("m"))->get()->count();
+        return $monthlyCreated;
+    }
+
 }

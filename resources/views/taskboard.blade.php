@@ -36,14 +36,14 @@
                             <div class="done-tasks">
                                 Done:
                             </div>
-                            <div class="dz" style="margin-left: 10px; margin-right: 16px; /*! border-radius: 1px; */border: 1px solid black;/*! padding: 2px; */padding: 0 6px 0 6px;border-radius: 19px;/*! background: #a1bda1; */color: #0a370a; border-color: #28a745;" id="dailyCounter">
+                            <div class="dz" style="margin-left: 10px; margin-right: 16px; /*! border-radius: 1px; */border: 1px solid black;/*! padding: 2px; */padding: 0 6px 0 6px;border-radius: 19px;/*! background: #a1bda1; */color: #0a370a; border-color: #28a745;" id="daily-done-counter">
                             </div>
                         </div>
                         <div class="div" style="display: flex;flex-direction: row;justify-content: space-between; padding-top: 6px;">
                             <div class="created-tasks">
                                 Created:
                             </div>
-                            <div class="dz" style="margin-left: 10px; margin-right: 16px; /*! border-radius: 1px; */border: 1px solid black;/*! padding: 2px; */padding: 0 6px 0 6px;border-radius: 19px;/*! background: #a1bda1; */color: #0a370a; border-color: #007bff;" id="createdCounter">
+                            <div class="dz" style="margin-left: 10px; margin-right: 16px; /*! border-radius: 1px; */border: 1px solid black;/*! padding: 2px; */padding: 0 6px 0 6px;border-radius: 19px;/*! background: #a1bda1; */color: #0a370a; border-color: #007bff;" id="daily-created-counter">
 
                             </div>
                         </div>
@@ -54,18 +54,25 @@
                 <div class="container-fluid" id="weekly-container">
                     <div class="box" style="width:100%; display: flex;flex-direction: column;">
                     <div class="label" style="text-align: center; font-weight: bold;">
-                            Weekly
+                            Monthly
                         </div> 
-                        <div class="tasks   ">
+                        <div class="tasks" style="font-style: italic">
+                        <div class="div" style="display: flex;flex-direction: row;justify-content: space-between;">
                             <div class="done-tasks">
-                                Done
+                                Done:
                             </div>
-
-                            <div class="created-tasks">
-                                Created
+                            <div class="dz" style="margin-left: 10px; margin-right: 16px; /*! border-radius: 1px; */border: 1px solid black;/*! padding: 2px; */padding: 0 6px 0 6px;border-radius: 19px;/*! background: #a1bda1; */color: #0a370a; border-color: #28a745;" id="monthly-done-counter">
                             </div>
-                            
                         </div>
+                        <div class="div" style="display: flex;flex-direction: row;justify-content: space-between; padding-top: 6px;">
+                            <div class="created-tasks">
+                                Created:
+                            </div>
+                            <div class="dz" style="margin-left: 10px; margin-right: 16px; /*! border-radius: 1px; */border: 1px solid black;/*! padding: 2px; */padding: 0 6px 0 6px;border-radius: 19px;/*! background: #a1bda1; */color: #0a370a; border-color: #007bff;" id="monthly-created-counter">
+
+                            </div>
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -135,11 +142,11 @@
 
        $(document).ready(function(){
             $.ajax({
-                url: "{{ url('taskboard') }}" + '/daily',
+                url: "{{ url('taskboard') }}" + '/dailydone',
                 type: "GET",
                 data: "<div> Replace div with this contentf</div>",
                 success: function(data){
-                    $('#dailyCounter').html(data);
+                    $('#daily-done-counter').html(data);
                 }
             })
         });
@@ -150,7 +157,29 @@
                 type: "GET",
                 data: "<div> Replace div with this contentf</div>",
                 success: function(data){
-                    $('#createdCounter').html(data);
+                    $('#daily-created-counter').html(data);
+                }
+            })
+        });
+
+        $(document).ready(function(){
+            $.ajax({
+                url: "{{ url('taskboard') }}" + '/monthlydone',
+                type: "GET",
+                data: "<div> Replace div with this contentf</div>",
+                success: function(data){
+                    $('#monthly-done-counter').html(data);
+                }
+            })
+        });
+
+        $(document).ready(function(){
+            $.ajax({
+                url: "{{ url('taskboard') }}" + '/monthlycreated',
+                type: "GET",
+                data: "<div> Replace div with this contentf</div>",
+                success: function(data){
+                    $('#monthly-created-counter').html(data);
                 }
             })
         });
@@ -205,7 +234,7 @@
                 type: "GET",
                 data: "<div> Replace div with this contentf</div>",
                 success: function(data){
-                    $('#dailyCounter').html(data);
+                    $('#daily-done-counter').html(data);
                 }
             })
 
@@ -214,7 +243,7 @@
                 type: "GET",
                 data: "<div> Replace div with this contentf</div>",
                 success: function(data){
-                    $('#createdCounter').html(data);
+                    $('#daily-created-counter').html(data);
                 }
             })
             
@@ -258,7 +287,7 @@
                 type: "GET",
                 data: "<div> Replace div with this contentf</div>",
                 success: function(data){
-                    $('#dailyCounter').html(data);
+                    $('#daily-done-counter').html(data);
                 }
             })
            
