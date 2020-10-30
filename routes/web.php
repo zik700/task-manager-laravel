@@ -22,6 +22,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 // Route::get('/register','RegistrationController@create');
 Route::post('/done/{id}','TaskBoardController@done');
+Route::get('/taskboard/daily','TaskBoardController@daily');
 Route::resource('/taskboard', 'TaskBoardController');
 // Route::get('/login','SessionsController@create');
 // Route::get('/home', 'HomeController@index')->name('home');

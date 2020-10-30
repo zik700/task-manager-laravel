@@ -24,8 +24,7 @@
             </div>
         </div>
         <div class="container-fluid">
-            <h4 class="one">Daily done: </h4>
-            <h3 class="one" id="dailyCounter">0</h3>
+            <h4 class="one">Daily done: </h4><h3 class="one" id="dailyCounter"></h3>
         </div>
         <br>
         <table id="dataTable" class="table">
@@ -87,6 +86,17 @@
             }
         });
 
+       $(document).ready(function(){
+            $.ajax({
+                url: "{{ url('taskboard') }}" + '/daily',
+                type: "GET",
+                data: "<div> Replace div with this contentf</div>",
+                success: function(data){
+                    $('#dailyCounter').html(data);
+                }
+            })
+        });
+
         // datatable
         var table = $('#dataTable').DataTable({
             processing: true,
@@ -99,6 +109,7 @@
                 {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
         });
+        
 
         // create new task
         $('#createNewBook').click(function () {
@@ -130,6 +141,15 @@
                     $('#saveBtn').html('Save');
                 }
             });
+
+            $.ajax({
+                url: "{{ url('taskboard') }}" + '/daily',
+                type: "GET",
+                data: "<div> Replace div with this contentf</div>",
+                success: function(data){
+                    $('#dailyCounter').html(data);
+            }
+        })
         });
 
         // edit task
@@ -147,37 +167,49 @@
 
         $('body').on('click', '.doneBtn', function () {
             var id = $(this).data("id");
-            confirm("Jesteś pewny, że chcesz załatwić to zadanie?");
-
+           
+            if(confirm("Are you sure done this task?")){
+                $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: "{{ url('') }}" + '/done/' + id,
+                    success: function (data) {
+                        table.draw();
+                    },
+                    error: function (data) {
+                        console.log('Error:', data);
+                    }
+                });
+            }
+            
             $.ajax({
-                type: "POST",
-                dataType: 'json',
-                url: "{{ url('') }}" + '/done/' + id,
-                success: function (data) {
-                    table.draw();
-                },
-                error: function (data) {
-                    console.log('Error:', data);
+                url: "{{ url('taskboard') }}" + '/daily',
+                type: "GET",
+                data: "<div> Replace div with this contentf</div>",
+                success: function(data){
+                    $('#dailyCounter').html(data);
                 }
-            });
+            })
+           
         });
 
         // delete task
         $('body').on('click', '.deleteBook', function () {
             var id = $(this).data("id");
-            confirm("Jesteś pewny, że chcesz usunąć to zadanie?");
-
-            $.ajax({
-                type: "DELETE",
-                url: "{{ url('taskboard') }}" + '/' + id,
-                success: function (data) {
-                    table.draw();
-                },
-                error: function (data) {
-                    console.log('Error:', data);
-                }
-            });
+            if (confirm("Are you sure delete this task?")){
+                $.ajax({
+                    type: "DELETE",
+                    url: "{{ url('taskboard') }}" + '/' + id,
+                    success: function (data) {
+                        table.draw();
+                    },
+                    error: function (data) {
+                        console.log('Error:', data);
+                    }
+                });
+            }
         });
+        
 
     });
 </script>
