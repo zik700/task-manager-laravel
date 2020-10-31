@@ -296,7 +296,7 @@
             
             // RELOAD 
             $.ajax({
-                url: "{{ url('taskboard') }}" + '/daily',
+                url: "{{ url('taskboard') }}" + '/dailydone',
                 type: "GET",
                 data: "<div> Replace div with this contentf</div>",
                 success: function(data){

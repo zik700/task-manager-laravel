@@ -85,7 +85,7 @@ class TaskService extends ServiceProvider
     public function countThisMonth(int $user_id, string $state){
 
         $thisMonth = date("m");
-        return Tasks::whereMonth('created_at', $thisMonth)->where('is_done', $state)->get()->count() ? Tasks::whereMonth('created_at', $thisMonth)->where('is_done', $state)->get()->count() : 0 ;
+        return Tasks::whereMonth('updated_at', $thisMonth)->where('is_done', $state)->get()->count() ? Tasks::whereMonth('created_at', $thisMonth)->where('is_done', $state)->get()->count() : 0 ;
 
     }
 
@@ -93,13 +93,14 @@ class TaskService extends ServiceProvider
     public function getDailyDone(){
 
         $today = date("Y-m-d");
-        $result = Tasks::whereDate('created_at', $today)
+        $result = Tasks::whereDate('updated_at', $today)
             ->where('is_done', true)
             ->get()
             ->count();
 
         return $result ? $result : 0;
     }
+    
     public function getDailyCreated(){
 
         $today = date("Y-m-d");
