@@ -8,6 +8,7 @@
     <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"> 
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
@@ -79,13 +80,14 @@
                 <button class="btn btn-outline-primary" style="width:50%" id="createNewBook">New Task</button>
             </div>
         <br>
-        <table id="dataTable" class="table">
+        <table id="dataTable" class="table" style="width:75%;">
             <thead>
             <tr>
                 <th>#</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Deadline</th>
+                <th>Progress</th>
                 <th width="280px">Action</th>
             </tr>
             </thead>
@@ -110,23 +112,30 @@
                                 <input type="text" class="form-control" id="name" name="name" placeholder="Enter name"
                                     value="" maxlength="50" required="" autocomplete="off">
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Description</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" id="description" name="description"
-                                    placeholder="Enter author name"
-                                    value="" maxlength="50" required="" autocomplete="off">
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Deadline</label>
-                            <div class="col-sm-12">
-                                <input type="date" class="form-control" id="deadline" name="deadline"
-                                    placeholder="Enter deadline"
-                                    value="" maxlength="50" required="" autocomplete="off">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Description</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" id="description" name="description"
+                                        placeholder="Enter author name"
+                                        value="" maxlength="50" required="" autocomplete="off">
+                                </div>
                             </div>
-                        </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Deadline</label>
+                                <div class="col-sm-12">
+                                    <input type="date" class="form-control" id="deadline" name="deadline"
+                                        placeholder="Enter deadline"
+                                        value="" maxlength="50" required="" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Progress</label>
+                                <div class="col-sm-12">
+                                        <input class="form-control"  placeholder="Enter value in %" id="progress" name="progress">
+                                        </input>
+                                </div>
+                            </div>
                         <div class="col-sm-offset-2 col-sm-10">
                             <button type="submit" class="btn btn-primary" id="saveBtn">Save</button>
                         </div>
@@ -202,6 +211,7 @@
                 {data: 'name', name: 'name'},
                 {data: 'description', name: 'description'},
                 {data: 'deadline', name: 'deadline'},
+                {data: 'progress', name: 'progress'},
                 {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
         });

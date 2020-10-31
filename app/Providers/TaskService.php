@@ -27,7 +27,7 @@ class TaskService extends ServiceProvider
         //
     }
 
-    public function updateOrCreateTask(int $task_id = null, string $deadline,  string $name, string $description, $user_id, $from = null, boolean $is_done = null){
+    public function updateOrCreateTask(int $task_id = null, string $deadline,  string $name, string $description, $user_id, $from = null, boolean $is_done = null, $progress){
 
         $result = Tasks::updateOrCreate([
             'id' => $task_id
@@ -36,7 +36,8 @@ class TaskService extends ServiceProvider
             'description' => $description,
             'is_done' => $is_done,
             'deadline' => $deadline,
-            'user_id' => $user_id,
+            'progress'=> $progress,
+            'user_id' => 1,
             'from' => $from
         ]);
 

@@ -23,6 +23,20 @@ class TaskBoardController extends Controller
         if ($request->ajax()) {
             return DataTables::of($tasks)
                 ->addIndexColumn()
+                ->addColumn('progress', function ($row) {
+
+                    if($row->progress == 100){
+                        $divclass="w3-green";
+                    }else{
+                        $divclass="w3-blue";
+                    }
+
+                    $progress = '<div class="w3-light-grey" width:100%;><div class="'.$divclass.'" style="width:'.$row->progress.'%; height:24px;" data-id="'.$row->id.'"></div></div>';
+
+                    // var_dump(['progress' => $row->progress]);
+
+                    return $progress;
+                })
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-outline-primary btn-sm editBook" style=margin-left:20px;>Edit</a>';
                     $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-outline-danger btn-sm deleteBook" style=margin-left:8px;>Delete</a>';
@@ -30,7 +44,7 @@ class TaskBoardController extends Controller
                     
                     return $btn;
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action', 'progress'])
                 ->make(true);
         }
 
@@ -45,14 +59,16 @@ class TaskBoardController extends Controller
      */
     public function store(Request $request)
     {
-
         $taskService = new TaskService($request->id);
         $result = $taskService->updateOrCreateTask(
             $request->id,
             $request->deadline,
             $request->name,
             $request->description, 
-            $request->user_id
+            $request->user_id,
+            null,
+            null,
+            $request->progress
         );
 
         if($result == true){
