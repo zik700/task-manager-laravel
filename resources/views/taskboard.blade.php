@@ -258,7 +258,6 @@
                     $('#daily-created-counter').html(data);
                 }
             })
-            
 
         });
 
