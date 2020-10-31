@@ -259,6 +259,28 @@
                 }
             })
 
+
+            $.ajax({
+                url: "{{ url('taskboard') }}" + '/monthlydone',
+                type: "GET",
+                data: "<div> Replace div with this contentf</div>",
+                success: function(data){
+                    $('#monthly-done-counter').html(data);
+                }
+            })
+
+
+
+            $.ajax({
+                url: "{{ url('taskboard') }}" + '/monthlycreated',
+                type: "GET",
+                data: "<div> Replace div with this contentf</div>",
+                success: function(data){
+                    $('#monthly-created-counter').html(data);
+                }
+            })
+
+
         });
 
         // EDIT TASK
@@ -300,6 +322,15 @@
                 data: "<div> Replace div with this contentf</div>",
                 success: function(data){
                     $('#daily-done-counter').html(data);
+                }
+            })
+
+            $.ajax({
+                url: "{{ url('taskboard') }}" + '/monthlydone',
+                type: "GET",
+                data: "<div> Replace div with this contentf</div>",
+                success: function(data){
+                    $('#monthly-done-counter').html(data);
                 }
             })
            
