@@ -107,7 +107,7 @@
                         <div class="form-group">
                             <label for="name" class="col-sm-2 control-label">Name</label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter name"
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter short task name"
                                     value="" maxlength="50" required="" autocomplete="off">
                             </div>
                         </div>
@@ -115,7 +115,7 @@
                             <label class="col-sm-2 control-label">Description</label>
                             <div class="col-sm-12">
                                 <input type="text" class="form-control" id="description" name="description"
-                                    placeholder="Enter author name"
+                                    placeholder="Enter task decription"
                                     value="" maxlength="50" required="" autocomplete="off">
                             </div>
                         </div>
