@@ -350,6 +350,26 @@
                         console.log('Error:', data);
                     }
                 });
+
+            $.ajax({
+                url: "{{ url('taskboard') }}" + '/dailycreated',
+                type: "GET",
+                data: "<div> Replace div with this contentf</div>",
+                success: function(data){
+                    $('#daily-created-counter').html(data);
+                }
+            })
+
+
+            $.ajax({
+                url: "{{ url('taskboard') }}" + '/monthlycreated',
+                type: "GET",
+                data: "<div> Replace div with this contentf</div>",
+                success: function(data){
+                    $('#monthly-created-counter').html(data);
+                }
+            })
+
             }
         });
         
